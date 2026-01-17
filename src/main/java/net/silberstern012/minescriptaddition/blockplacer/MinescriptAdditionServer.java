@@ -24,16 +24,23 @@ public class MinescriptAdditionServer implements Runnable {
 
                     String[] args = msg.split(" ");
 
-                    if (args.length == 4 && args[0].equalsIgnoreCase("placeblock")) {
+                    if (args.length == 4) {
                         int x = Integer.parseInt(args[1]);
                         int y = Integer.parseInt(args[2]);
                         int z = Integer.parseInt(args[3]);
+                        BlockPos pos = new BlockPos(x, y, z);
 
-                        // Muss im Minecraft-Thread laufen
-                        Minecraft.getInstance().execute(() -> {
-                            PacketSender.placeBlockAt(new BlockPos(x, y, z));
-                        });
-                        System.out.println("Placeblock");
+                        if (args[0].equalsIgnoreCase("placeblock")) {
+                            Minecraft.getInstance().execute(() -> {
+                                PacketSender.placeBlockAt(pos);
+                            });
+                        }
+
+                        if (args[0].equalsIgnoreCase("breakblock")) {
+                            Minecraft.getInstance().execute(() -> {
+                                PacketSender.breakBlockAt(pos);
+                            });
+                        }
                     }
 
                 } catch (Exception e) {
