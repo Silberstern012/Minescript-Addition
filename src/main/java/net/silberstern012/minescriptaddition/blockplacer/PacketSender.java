@@ -47,10 +47,48 @@ public class PacketSender {
             //&& mc.player.getMainHandItem().is(Items.DIRT)) {
 
             mc.getConnection().send(packet);
+            mc.player.displayClientMessage(Component.literal("Placed block at " + pos.toShortString()), true);
+        }
+    }
+
+    public static void placeOffBlockAt(BlockPos pos) {
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player == null || mc.level == null || mc.getConnection() == null) return;
+
+        BlockPos target = pos;
+
+        if (!mc.level.getBlockState(target).canBeReplaced()) {
+            return;
+        }
+
+        if (mc.level.getBlockState(target.below()).isAir()) {
+            target = target.above();
+        }
+
+        BlockHitResult hit = new BlockHitResult(
+                Vec3.atCenterOf(target.below()),
+                Direction.UP,
+                target.below(),
+                false
+        );
+
+        ServerboundUseItemOnPacket packet =
+                new ServerboundUseItemOnPacket(InteractionHand.OFF_HAND, hit, 0);
+
+        // Optional: prüfen ob Spieler überhaupt einen Block hält
+        //ItemStack stack = mc.player.getMainHandItem();
+        //if ((!(mc.player.getMainHandItem().getItem() instanceof Blockitem)) && !mc.player.getMainHandItem().isEmpty()) {
+
+        if (!mc.player.getOffhandItem().isEmpty()) {
+            //&& mc.player.getOffHandItem().is(Items.DIRT)) {
+
+            mc.getConnection().send(packet);
             mc.player.displayClientMessage(
                     Component.literal("Placed block at " + pos.toShortString()), true);
         }
     }
+
+
     public static void breakBlockAt(BlockPos pos) {
         Minecraft mc = Minecraft.getInstance();
         if (mc.player == null || mc.level == null || mc.getConnection() == null) return;

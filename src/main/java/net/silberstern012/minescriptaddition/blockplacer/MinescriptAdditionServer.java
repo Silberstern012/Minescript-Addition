@@ -36,6 +36,12 @@ public class MinescriptAdditionServer implements Runnable {
                             });
                         }
 
+                        if (args[0].equalsIgnoreCase("placeoffblock")) {
+                            Minecraft.getInstance().execute(() -> {
+                                PacketSender.placeOffBlockAt(pos);
+                            });
+                        }
+
                         if (args[0].equalsIgnoreCase("breakblock")) {
                             Minecraft.getInstance().execute(() -> {
                                 PacketSender.breakBlockAt(pos);
