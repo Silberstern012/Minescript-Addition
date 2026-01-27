@@ -58,10 +58,14 @@ def send(cmd):
 def placeBlock(x, y, z):
     send(f"placeblock {x} {y} {z}")
 
+def placeOffBlock(x, y, z):
+    send(f"placeoffblock {x} {y} {z}")
+
 def breakBlock(x, y, z):
     block = minescript.getblock(x, y, z)
     #print(block)
     if block != "minecraft:air":
         send(f"breakblock {x} {y} {z}")
         while block == "air":
+
             pass
