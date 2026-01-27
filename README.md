@@ -1,7 +1,6 @@
-# **Minescript Additions**
+# **Minescript Addition**
 
 Adds small extras to Minescript
-
 
 
 > PlaceBlock
@@ -12,6 +11,13 @@ Adds small extras to Minescript
 extension.placeBlock(x, y, z)
 ```
 
+>PlaceOffhandBlock
+- Place the block from your offhand at the specified coordinates
+- usage:
+```
+extension.placeOffBlock(x, y, z)
+```
+
 > MineBlock
 - Mines the block at the specified coordinates
 - you must not look anymore at the position to mine it
@@ -20,5 +26,4 @@ extension.placeBlock(x, y, z)
 extension.mineBlock(x, y, z)
 ```
 
-
-just put the extension.py file in your minescript folder
+[extension.py](https://github.com/Silberstern012/Minescript-Addition/blob/main/extension.py)
