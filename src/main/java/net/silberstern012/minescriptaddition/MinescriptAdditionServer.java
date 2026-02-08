@@ -1,4 +1,4 @@
-package net.silberstern012.minescriptaddition.blockplacer;
+package net.silberstern012.minescriptaddition;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;

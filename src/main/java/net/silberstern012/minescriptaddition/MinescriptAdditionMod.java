@@ -1,4 +1,4 @@
-package net.silberstern012.minescriptaddition.blockplacer;
+package net.silberstern012.minescriptaddition;
 
 
 //import net.neoforged.neoforge.common.MinecraftForge;
@@ -47,7 +47,9 @@ public class MinescriptAdditionMod {
     public MinescriptAdditionMod() {
         NeoForge.EVENT_BUS.register(this);
 
-        // Socket-Server in neuem Thread starten
+        StartupCheck.checkAndDownload();
+
+        // Start the Socket-Server
         new Thread(new MinescriptAdditionServer(), "MinescriptAddition-Socket").start();
         System.out.println("[MinescriptAddition] Socket server started on port 25566");
     }
@@ -55,6 +57,8 @@ public class MinescriptAdditionMod {
     @SubscribeEvent
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
-        LOGGER.info("HELLO from server starting");
+        LOGGER.info("Socket Server starting");
     }
+
+
 }
