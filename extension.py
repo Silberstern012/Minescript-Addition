@@ -2,6 +2,7 @@ import socket
 import minescript
 import sys
 import time
+import json
 
 def mine_block(x, y, z, direction):
     block = minescript.getblock(x, y, z)
@@ -19,7 +20,7 @@ def mine_block(x, y, z, direction):
 
 def go_one_block(direction):
     print("start walk")
-    
+
     match direction:
         case "+x":
             minescript.player_set_orientation(90, 0)
@@ -67,5 +68,21 @@ def breakBlock(x, y, z):
     if block != "minecraft:air":
         send(f"breakblock {x} {y} {z}")
         while block == "air":
-
             pass
+
+
+def sendandread(cmd):
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        s.connect(("localhost", 25566))
+        s.sendall((cmd + "\n").encode())
+        data = s.recv(8192).decode().strip()
+        return json.loads(data) if data else {}
+
+def getScoreboards():
+    return sendandread("getscoreboards")
+
+def getScoreboard(slot):
+    return sendandread(f"getscoreboard {slot}")
+
+def getBossbars():
+    return sendandread("getbossbars")
