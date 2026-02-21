@@ -58,6 +58,8 @@ public class MinescriptAdditionMod {
     public void onServerStarting(ServerStartingEvent event) {
         // Do something when the server starts
         LOGGER.info("Socket Server starting");
+        LOGGER.warn("but...wait, this is a clientside mod");
+        LOGGER.warn("it should not be installed on the server, you can't use it on the serverside, sorry");
     }
 
 

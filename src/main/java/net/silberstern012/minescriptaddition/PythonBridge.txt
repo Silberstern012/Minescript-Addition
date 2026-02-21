@@ -1,0 +1,19 @@
+package net.silberstern012.minescriptaddition;
+
+
+public class PythonBridge {
+
+    private static Socket socket;
+    private static DataOutputStream out;
+
+    public static void send(JsonObject obj) {
+        try {
+            byte[] data = obj.toString().getBytes(StandardCharsets.UTF_8);
+            out.writeInt(data.length);
+            out.write(data);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}

@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.io.InputStream;
 
-public static final Logger LOGGER = LogUtils.getLogger();
+//public static final Logger LOGGER = LogUtils.getLogger();
 
 public class StartupCheck {
     private static final String SCRIPT_URL = "https://raw.githubusercontent.com/Silberstern012/Minescript-Addition/refs/heads/neoforge/extension.py";
@@ -23,7 +23,7 @@ public class StartupCheck {
                     Files.createDirectories(targetPath.getParent());
                     try (InputStream in = URI.create(SCRIPT_URL).toURL().openStream()) {
                         Files.copy(in, targetPath, StandardCopyOption.REPLACE_EXISTING);
-                        LOGGER.info("Downloaded Assition scripts");
+                        System.out.println("Downloaded Addition scripts");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();

@@ -1,0 +1,99 @@
+package net.silberstern012.minescriptaddition:
+
+
+
+
+public class PythonGuiScreen extends Screen {
+
+    private final int guiWidth;
+    private final int guiHeight;
+    private int left;
+    private int top;
+
+    private final List<Element> elements;
+
+    public PythonGuiScreen(String title, int width, int height, List<Element> elements) {
+        super(Text.literal(title));
+        this.guiWidth = width;
+        this.guiHeight = height;
+        this.elements = elements;
+    }
+
+    @Override
+    protected void init() {
+        this.left = (this.width - guiWidth) / 2;
+        this.top = (this.height - guiHeight) / 2;
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        for (Element e : elements) {
+            if (!e.type.equals("button")) continue;
+
+            int bx = left + e.x;
+            int by = top + e.y;
+
+            if (mouseX >= bx && mouseX <= bx + e.width &&
+                    mouseY >= by && mouseY <= by + e.height) {
+
+                sendButtonClick(e.id);
+                return true;
+            }
+        }
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    private void sendButtonClick(String buttonId) {
+        JsonObject msg = new JsonObject();
+        msg.addProperty("type", "button_click");
+        msg.addProperty("gui", "test");
+        msg.addProperty("button", buttonId);
+
+        PythonBridge.send(msg);
+    }
+
+    @Override
+    public void render(DrawContext ctx, int mouseX, int mouseY, float delta) {
+        renderBackground(ctx);
+
+        ctx.fill(left, top, left + guiWidth, top + guiHeight, 0xAA000000);
+
+        for (Element e : elements) {
+            if (e.type.equals("label")) {
+                ctx.drawText(
+                        textRenderer,
+                        e.text,
+                        left + e.x,
+                        top + e.y,
+                        0xFFFFFF,
+                        false
+                );
+            }
+
+            if (e.type.equals("button")) {
+                int bx = left + e.x;
+                int by = top + e.y;
+
+                ctx.fill(bx, by, bx + e.width, by + e.height, 0xFF555555);
+                ctx.drawBorder(bx, by, e.width, e.height, 0xFFFFFFFF);
+
+                int tw = textRenderer.getWidth(e.text);
+                ctx.drawText(
+                        textRenderer,
+                        e.text,
+                        bx + (e.width - tw) / 2,
+                        by + (e.height - 8) / 2,
+                        0xFFFFFF,
+                        false
+                );
+            }
+        }
+    }
+
+    public static class Element {
+        public String type;
+        public String id;
+        public int x, y, width, height;
+        public String text;
+    }
+}
