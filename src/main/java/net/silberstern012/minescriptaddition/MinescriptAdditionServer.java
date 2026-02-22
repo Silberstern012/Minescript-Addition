@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.silberstern012.minescriptaddition.scoreboard.ScoreboardUtils;
 import net.silberstern012.minescriptaddition.scoreboard.ScoreboardAPI;
+import net.silberstern012.minescriptaddition.render.BlockSelector;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -32,6 +33,50 @@ public class MinescriptAdditionServer implements Runnable {
                     String[] args = msg.split(" ");
 
                     //System.out.println(Arrays.toString(args)); //Some errors because Arrays.
+
+                    // ===== SELECT BLOCK =====
+                    if (args.length == 7 && args[0].equalsIgnoreCase("selectblock")) {
+
+                        int x = Integer.parseInt(args[1]);
+                        int y = Integer.parseInt(args[2]);
+                        int z = Integer.parseInt(args[3]);
+
+                        float r = Float.parseFloat(args[4]);
+                        float g = Float.parseFloat(args[5]);
+                        float b = Float.parseFloat(args[6]);
+
+                        BlockPos pos = new BlockPos(x, y, z);
+
+                        Minecraft.getInstance().execute(() -> {
+                            BlockSelector.select(pos, r, g, b);
+                        });
+
+                        continue;
+                    }
+
+                    if (args.length == 4 && args[0].equalsIgnoreCase("unselectblock")) {
+
+                        int x = Integer.parseInt(args[1]);
+                        int y = Integer.parseInt(args[2]);
+                        int z = Integer.parseInt(args[3]);
+
+                        BlockPos pos = new BlockPos(x, y, z);
+
+                        Minecraft.getInstance().execute(() -> {
+                            BlockSelector.unselect(pos);
+                        });
+
+                        continue;
+                    }
+
+                    if (msg.equalsIgnoreCase("unselectall")) {
+
+                        Minecraft.getInstance().execute(() -> {
+                            BlockSelector.unselectAll();
+                        });
+
+                        continue;
+                    }
 
                     // ===== GET SCOREBOARD (SYNC, NOT ASYNC!) =====
                     if (msg.equalsIgnoreCase("getscoreboard")) {

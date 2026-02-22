@@ -36,6 +36,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import net.silberstern012.minescriptaddition.render.BlockSelector;
+
 
 @Mod(MinescriptAdditionMod.MODID)
 public class MinescriptAdditionMod {
@@ -46,7 +48,7 @@ public class MinescriptAdditionMod {
 
     public MinescriptAdditionMod() {
         NeoForge.EVENT_BUS.register(this);
-
+        BlockSelector.init();
         StartupCheck.checkAndDownload();
 
         // Start the Socket-Server

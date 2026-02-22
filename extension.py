@@ -86,3 +86,12 @@ def getScoreboard(slot):
 
 def getBossbars():
     return sendandread("getbossbars")
+
+def selectBlock(x, y, z, r, g, b):
+    send(f"selectblock {x} {y} {z} {r} {g} {b}")
+
+def unselectBlock(x, y, z):
+    send(f"unselectblock {x} {y} {z}")
+
+def unselectAll():
+    send("unselectall")
